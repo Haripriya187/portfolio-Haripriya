@@ -1,207 +1,38 @@
-/* App.css */
-
-/* General Reset and Styling */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-  line-height: 1.6;
+.App {
+  text-align: center;
 }
 
-h1, h2, h3 {
-  color: #a91515;
-  margin: 0 0 15px;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-a {
-  color: #007acc;
-  text-decoration: none;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
-a:hover {
-  color: #005f99;
-}
-
-/* Header Section */
-.Header {
+.App-header {
   background-color: #282c34;
-  color: white;
-  padding: 20px 0;
-  text-align: center;
-}
-
-.Header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.Header nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.Header nav a {
-  font-size: 1.1rem;
-  color: white;
-  font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.Header nav a:hover {
-  background-color: #007acc;
-}
-
-/* About Section */
-.about {
-  padding: 50px 20px;
-  background-color: white;
-  text-align: center;
-}
-
-.about h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.about p {
-  font-size: 1.1rem;
-  margin: 0 auto;
-  max-width: 600px;
-}
-
-/* Projects Section */
-.projects {
-  padding: 50px 20px;
-  background-color: #f0f8ff;
-  text-align: center;
-}
-
-.projects h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.project-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.project {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  width: 300px;
-  text-align: left;
-}
-
-.project h3 {
-  margin-bottom: 10px;
-  font-size: 1.4rem;
-}
-
-.project p {
-  margin-bottom: 10px;
-}
-
-.project a {
-  display: inline-block;
-  font-size: 1rem;
-  margin-top: 10px;
-  color: #007acc;
-  font-weight: bold;
-}
-
-.project a:hover {
-  text-decoration: underline;
-}
-
-/* Skills Section */
-.skills {
-  padding: 50px 20px;
-  background-color: white;
-  text-align: center;
-}
-
-.skills h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.skills ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  max-width: 500px;
-}
-
-.skills ul li {
-  background: #f0f8ff;
-  margin: 10px 0;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1.1rem;
-}
-
-/* Contact Section */
-.contact {
-  padding: 50px 20px;
-  background-color: #f0f8ff;
-  text-align: center;
-}
-
-.contact h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.contact p {
-  margin-bottom: 20px;
-}
-
-.contact-form {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.contact-form label {
-  align-self: flex-start;
-  font-weight: bold;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.contact-form textarea {
-  resize: none;
-}
-
-.contact-form button {
-  background-color: #007acc;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
 }
 
-.contact-form button:hover {
-  background-color: #005f99;
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

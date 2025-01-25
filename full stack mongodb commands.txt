@@ -1,0 +1,263 @@
+commands
+
+1) show dbs
+
+2) use database_name
+
+3) db.collection_name.insertOne({name:'hari',roll_no:45})
+[collection_name means table_name]
+=> for insertion
+
+4) db.collection_name.find()
+=>for list the datas
+
+5) db.collection_name.findOne()
+=> for return the first record
+
+6) db.collection_name.insertMany([{name:"abi",roll:12},{name:"harsha",roll:32},{name:"esther",roll:39}])
+=>insertion of many datas
+
+7) db.collection_name.find().toArray()
+=>which prints the data as array
+
+8) db.collection_name.find().forEach((d)=>print('the data is',d))
+=>prints each iteration
+
+9) db.(collectionName).insertOne({name:'sai',details:{salary:40000,role:'developer'}})
+=>nested datas
+
+9) db.students.find({name:anu})
+   db.students.find({'details.role':'developer'})
+
+10) db.students.updateOne({name:"anu"},{$set:{'details.salary':50000}})
+=>for updation
+
+11) db.students.updateOne({roll:45},{$set:{age:20}})
+=> for updation
+
+12) db.students.insertMany([{name:'meenu',roll:26},{name:'sana',roll:26},{name:'chachu',roll:26}])
+=>insert many datas
+
+13) db.students.updateMany({roll:26},{$set:{roll:86}})
+=>updation for many
+
+14) db.students.updateMany({'details.salary':50000},{$set:{name:"ravi"}},{$set:{'details.age':24}})
+=>update many
+
+15) db.students.updateOne({_id:ObjectId('67906cab77f2cb359b0d8190')},{$set:{roll:96}})
+=>updation for data which have same values
+
+16) db.students.updateOne({name:'kumaran',details:{$exists:true}},{$set:{name:'murugan'}})
+=>updation for data which have same values
+
+
+!!!!!!!!!!!!  find()  returns curser object
+              by using this curser obect we can return toArray and forEach
+
+
+17) db.students.updateOne({name:'kumaran',details:{$exists:true}},{$set:{name:'murugan'}})
+=>updation another method
+
+
+
+
+
+create a folder(with proper name)
+go to folder path =>code . (it will open vscode)
+
+npm i--s express express-handlebars body-parser
+npm i-g nodemon
+
+1.express
+purpose: Express is a fast, minimalist web framework for node.js it provides tools to build web applications and APIS
+usage: 
+  to handle HTTP requests and reponses
+  To create routes for different endpoints(eg:GET,POST,PUT,DELETE).
+  To integrate middleware for processing requests.
+
+
+2.express-handlebars
+purpose: this package is an express.js template engine for rendering dynamic Html pages using handlebars syntax
+usage:
+  to serve dynamic content by combining HTML templates with javascript data
+  to create reusable components like headers,footers,etc., using handlebars partials
+
+3.body-parser
+purpose: body-parser
+
+
+//app.js
+const express = require('express');
+const exhbs = require('express-handlebars');
+const app = express();
+
+app.engine('hbs', exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+app.set ('view engine', 'hbs');
+app.set('views','viewsfold');
+
+//Routes
+app.get('/',(req, res)=> {
+    const msg ='Hello Everyone';
+    res.render ('maincopy',{msg});
+
+});
+
+//start the server
+app.listen(8000,()=>{
+    console.log('Listening on port 8000...');
+});
+
+
+
+// maincopy.hbs
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <title>MONGODB CRUD</title>
+</head>
+<body>
+<h1> mongoDB crud example</h1>
+<p>{{msg}}</p>
+</body>
+
+</html>
+
+
+============================================================================================================
+//app.js
+const express = require('express');
+const exhbs = require('express-handlebars');
+const app = express();
+const dbo=require('./db');
+
+app.engine('hbs', exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+app.set ('view engine', 'hbs');
+app.set('views','viewsfold');
+
+app.get('/',async(req, res)=> {
+    let database=await dbo.getDatabase();
+    const collection=database.collection('emp')
+    const cursur=collection.find({})
+    let datas=await cursur.toArray()
+    const msg='';
+    console.log('the data',datas)
+    res.render ('maincopy',{msg,datas});
+
+});
+app.listen(8000,()=>{
+    console.log('Listening on port 8000...');
+});
+
+
+///db.js
+const mongodb=require('mongodb');
+const mongoClient= mongodb.MongoClient;
+
+let database;
+async function getDatabase(){
+    const client= await mongoClient.connect('mongodb://127.0.0.1:27017');
+
+    database=client.db('t1');
+    if(!database){
+        console.log('DAtabase Connected successfully');
+
+    }
+    else{
+        console.log('Database connection failed:');
+    }
+        return database
+    }
+module.exports={getDatabase};
+
+================================================================================================
+insert code
+
+//app.js
+const express = require('express');
+const exhbs = require('express-handlebars');
+const bodyParser=require('body-parser');
+const app = express();
+const dbo=require('./db');
+
+app.engine('hbs', exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+app.set ('view engine', 'hbs');
+app.set('views','viewsfold');
+app.use(bodyParser.urlencoded({ extended:true}));
+
+app.get('/',async(req, res)=> {
+    let database=await dbo.getDatabase();
+    const collection=database.collection('emp')
+    const cursur=collection.find({})
+    let datas=await cursur.toArray()
+    const msg='';
+    console.log('the data',datas)
+    if(req.query.status===1){
+        msg='Inserted successfully'
+    }
+    res.render ('maincopy',{msg,datas});
+
+});
+
+app.post('/empinfo', async(req , res) =>{
+    const database = await dbo.getDatabase();
+    const collection = database.collection('emp');
+    const employee = {empid: req.body.eid, empname:req.body.ename};
+
+    await collection.insertOne(employee);
+
+    res.redirect('/?status=1');
+});
+app.listen(8000,()=>{
+    console.log('Listening on port 8000...');
+});
+
+
+//db.js
+const mongodb=require('mongodb');
+const mongoClient= mongodb.MongoClient;
+
+let database;
+async function getDatabase(){
+    const client= await mongoClient.connect('mongodb://127.0.0.1:27017');
+
+    database=client.db('t1');
+    if(!database){
+        console.log('DAtabase Connected successfully');
+
+    }
+    else{
+        console.log('Database connection failed:');
+    }
+        return database
+    }
+module.exports={getDatabase};
+
+
+//maincopy.hbs
+<!DOCTYPE html>
+<html lang=""en>
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>mongoDB crud example</h1>
+        <h3>Create form</h3>
+        <form action="/empinfo"
+         method="post">
+        <label for="">emp id</label>
+        <input type="text" name="eid">
+        <label for="">emp name</label>
+        <input type="text" name="ename">
+        <input type="Submit">
+        </form><br><br>
+        <br><br>
+        <ul>
+            {{#each datas}}
+            <li>{{this.empid}} {{this.empname}}</li>
+            {{/each}}
+        </ul>
+        <p>{{msg}}</p>
+    </body>
+</html>
+
+============================================================================================
